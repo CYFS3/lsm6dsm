@@ -14,7 +14,7 @@
 *  2021-03-21     zhaocj       The first version
 */
 /* Includes -----------------------------------------------------------------*/
-#include "sensor_lsm6dsm.h"
+#include "lsm6dsm_sensor_v1.h"
 #include <string.h>
 #include <stdlib.h>
 #include "main.h"
@@ -24,7 +24,7 @@
 #define DBG_COLOR
 #include <rtdbg.h>
 /* Private typedef ----------------------------------------------------------*/
-static rt_size_t lsm6dsm_fetch_data(struct rt_sensor_device *sensor, void *buf, rt_size_t len);
+static RT_SIZE_TYPE lsm6dsm_fetch_data(struct rt_sensor_device *sensor, void *buf, rt_size_t len);
 static rt_err_t lsm6dsm_control(struct rt_sensor_device *sensor, int cmd, void *args);
 /* Private define -----------------------------------------------------------*/
 #ifdef PKG_LSM6DSM_I2C_ADDR_TYPE_LOW
@@ -75,7 +75,7 @@ static struct rt_sensor_ops sensor_ops =
 /* Extern variables ---------------------------------------------------------*/
 /* Private function prototypes ----------------------------------------------*/
 
-static int write_reg(void *handle, uint8_t reg, uint8_t *bufp, uint16_t len)
+static int32_t write_reg(void *handle, uint8_t reg, uint8_t *bufp, uint16_t len)
 {
     rt_uint8_t tmp = reg;
     struct rt_i2c_msg msgs[2];
@@ -98,7 +98,7 @@ static int write_reg(void *handle, uint8_t reg, uint8_t *bufp, uint16_t len)
     return RT_EOK;
 }
 
-static int read_reg(void *handle, uint8_t reg, uint8_t *bufp, uint16_t len)
+static int32_t read_reg(void *handle, uint8_t reg, uint8_t *bufp, uint16_t len)
 {
     rt_uint8_t tmp = reg;
     struct rt_i2c_msg msgs[2];
@@ -743,7 +743,7 @@ static rt_size_t lsm6dsm_fifo_fetch_data(rt_sensor_t sensor, struct rt_sensor_da
     return 0;
 }
 
-static rt_size_t lsm6dsm_fetch_data(struct rt_sensor_device *sensor, void *buf, rt_size_t len)
+static RT_SIZE_TYPE lsm6dsm_fetch_data(struct rt_sensor_device *sensor, void *buf, rt_size_t len)
 {
     RT_ASSERT(buf);
 

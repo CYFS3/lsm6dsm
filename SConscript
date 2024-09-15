@@ -4,9 +4,9 @@ Import('rtconfig')
 src   = []
 cwd   = GetCurrentDir()
 
-src += Glob('sensor_lsm6dsm.c')
 src += Glob('driver/*.c')
-
+if GetDepend('PKG_LSM6DSM_USING_SENSOR_V1'):
+    src += Glob('lsm6dsm_sensor_v1.c')
 # add lsm6dsm include path.
 path  = [cwd, cwd + '/driver']
 
